@@ -3,26 +3,30 @@ let dynamicRoutes = () => {
   const routes = axios
     .get("https://css-tricks.com/wp-json/wp/v2/posts?page=1&per_page=20")
     .then(res => {
-      return res.data.map(post => '/blog/${post.slug}')
+      return res.data.map(post => `/blog/${post.slug}`)
     })
   console.log(routes)
   return routes
 }
 
 export default {
-  // Global page headers: https://go.nuxtjs.dev/config-head
+  mode: "universal",
+  /*
+   ** Headers of the page
+   */
   head: {
-    title: 'wp-headless',
-    htmlAttrs: {
-      lang: 'en'
-    },
+    title: process.env.npm_package_name || "",
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        hid: "description",
+        name: "description",
+        content: process.env.npm_package_description || ""
+      }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
         rel: "stylesheet",
         href:
@@ -30,31 +34,36 @@ export default {
       }
     ]
   },
-
-  // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
-
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  /*
+   ** Customize the progress-bar color
+   */
+  loading: { color: "#fff" },
+  /*
+   ** Global CSS
+   */
+  css: [],
+  /*
+   ** Plugins to load before mounting the App
+   */
   plugins: [
+    "~/plugins/posts.server.js",
+    "~/plugins/tags.server.js",
+    // "~/plugins/dateformat.js"
   ],
   generate: {
     routes: dynamicRoutes
   },
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
-
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-  ],
-
-  // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-  ],
-
-  // Build Configuration: https://go.nuxtjs.dev/config-build
+  /*
+   ** Nuxt.js dev-modules
+   */
+  buildModules: [],
+  /*
+   ** Build configuration
+   */
   build: {
+    /*
+     ** You can extend webpack config here
+     */
+    extend(config, ctx) {}
   }
-
 }
