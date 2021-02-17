@@ -9,6 +9,9 @@
       <li>
         <nuxt-link to="/about">About</nuxt-link>
       </li>
+      <li>
+        <nuxt-link to="/googlesheet">Google Sheet</nuxt-link>
+      </li>
     </ul>
   </div>
 </template>
