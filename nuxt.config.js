@@ -1,3 +1,14 @@
+import axios from "axios"
+let dynamicRoutes = () => {
+  const routes = axios
+    .get("https://css-tricks.com/wp-json/wp/v2/posts?page=1&per_page=20")
+    .then(res => {
+      return res.data.map(post => '/blog/${post.slug}')
+    })
+  console.log(routes)
+  return routes
+}
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -11,7 +22,12 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: "stylesheet",
+        href:
+          "https://fonts.googleapis.com/css?family=Alata|Open+Sans&display=swap"
+      }
     ]
   },
 
@@ -22,6 +38,9 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
   ],
+  generate: {
+    routes: dynamicRoutes
+  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -37,4 +56,5 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }
+
 }
